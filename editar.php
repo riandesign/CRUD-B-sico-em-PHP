@@ -4,7 +4,9 @@ $erro = false;
 $id = $_GET['id'];
 
 if (isset($_POST['submit'])) {
-  $titulo = $_POST['titulo'];
+  
+  // mysql_real_escape_string(trim... => Salva string com apóstrofo
+  $titulo = mysql_real_escape_string(trim($_POST['titulo']));
 
   $query = "UPDATE frutas SET titulo = '$titulo' WHERE id = '$id'";
 
@@ -34,7 +36,12 @@ $fruta = $mysqli->query($query_recupera)->fetch_object();
 
     <?php
     if (isset($erro) && $erro == true) {
+      echo '<hr />';
       echo '<h2>Houve um erro ao editar a fruta.</h2>';
+      if(!empty( $mysqli->error)){
+        echo '<p>' . $mysqli->error . '</p>';
+      }
+      echo '<hr />';
     }
     ?>
 

@@ -3,7 +3,9 @@ include("conexao.php");
 $erro = false;
 
 if (isset($_POST['submit'])) {
-  $titulo = $_POST['titulo'];
+
+  // mysql_real_escape_string(trim... => Salva string com apóstrofo
+  $titulo = mysql_real_escape_string(trim($_POST['titulo']));
 
   $query = "INSERT INTO frutas (titulo) values ('$titulo')";
 
@@ -28,7 +30,12 @@ if (isset($_POST['submit'])) {
 
     <?php
     if (isset($erro) && $erro == true) {
+      echo '<hr />';
       echo '<h2>Houve um erro ao cadastrar a fruta.</h2>';
+      if(!empty( $mysqli->error)){
+        echo '<p>' . $mysqli->error . '</p>';
+      }
+      echo '<hr />';
     }
     ?>
 
